@@ -8,7 +8,6 @@
 "                                           ▀▀▀▀╚  
 
 call plug#begin()
-  Plug 'vimoxide/vim-cinnabar'
   Plug 'vimoxide/vim-quickscope'
   Plug 'vimoxide/vim-sherlock'
   Plug 'vimoxide/vim-spaceline'
@@ -23,11 +22,20 @@ call plug#begin()
   Plug 'natebosch/dartlang-snippets'
   Plug 'tpope/vim-fugitive'
   Plug 'preservim/nerdcommenter'
+  Plug 'junegunn/fzf'
+  Plug 'junegunn/fzf.vim'
+  Plug 'airblade/vim-rooter'
+  Plug 'challenger-deep-theme/vim', { 'as': 'challenger-deep' }
+  Plug 'whatyouhide/vim-gotham'
+  Plug 'sainnhe/forest-night'
+  Plug 'tomasr/molokai'
+  Plug 'fmoralesc/molokayo'
 call plug#end()
 
-colorscheme purify 
+colorscheme molokayo 
 
 autocmd vimenter * NERDTree
+nmap <F6> :NERDTreeToggle<CR>
 let mapleader = ","              " Leader
 let &ls = 2                             " Set to 0 to disable statusline (if 0, showmode is enabled)
 
@@ -64,28 +72,8 @@ set tabstop=4
 set shiftwidth=4
 set autoindent
 set expandtab
-if has('gui_running')
-  " GUI options here
 
-  if has("gui_macvim")
-    set guioptions=
-    set macligatures
-    set macmeta!
-  endif
-endif
-
-if has('nvim')
-  set inccommand=nosplit
-else
-  au BufEnter * set tm=500 ttm=0
-endif
-
-if &ls == 2 | set nosmd | endif
-if exists("&pumwidth") | set pumwidth=40 | endif
-  "Syntastic plugin
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
+set termguicolors
 
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
@@ -149,15 +137,30 @@ cnoremap <C-n> <C-\>e sherlock#completeForward()<CR>
 nnoremap <silent> <Leader>bn :call exutils#next_buffer()<CR>
 nnoremap <silent> <Leader>bp :call exutils#previous_buffer()<CR>
 
-augroup CustomGroup
-  autocmd!
-  au InsertEnter * set norelativenumber
-  au InsertLeave * set relativenumber
-  au BufEnter    * set formatoptions-=cro
-  au WinEnter    * if winnr('$') == 1 && getbufvar(winbufnr(winnr()), "&filetype") == "vifmd" | bw! | q | endif
-augroup END
-
 :hi clear CursorLine
 :hi CursorLine   cterm=NONE ctermbg=darkred ctermfg=white guibg=grey40 guifg=white
 :hi CursorColumn cterm=NONE ctermbg=darkred ctermfg=white guibg=grey40 guifg=white
 let g:coc_disable_startup_warning = 1
+let g:solarized_termcolors=256
+set t_ut=
+" Use `[g` and `]g` to navigate diagnostics
+" Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
+
+" GoTo code navigation.
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
+" Use K to show documentation in preview window.
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  else
+    call CocAction('doHover')
+  endif
+endfunction

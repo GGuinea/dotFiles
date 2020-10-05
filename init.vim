@@ -1,45 +1,57 @@
-"                              ,,      ,,          
-"    ▄▄▓▓▓▄▄                   ▓▓      ▓▓          
-"   ▓▓Γ   '▓▓     ▓▓▓▓▓▓▓▓▌    ▓▓      ▓▓  ▄▓▓▀▓▓▓ 
-"   ╨▓▓▄▄,                     ▓▓██████▓▓ ╔▓▌   ▓▓ 
-"      ╙▀▀█▓▓                  ▓▓      ▓▓ ╙▓▄   ▓▓ 
-"   ▓▓     ▓▓∩    ▓▓▓▓▓▓▓▓▌    ▓▓      ▓▓  ▀▓▄▄▓▓▓ 
-"    ▀▓▓▓▓▓█▀      ╙╙╙╙╙╙╙                 ▓▄  ,▓▓ 
-"                                           ▀▀▀▀╚  
-
 call plug#begin()
-  Plug 'vimoxide/vim-quickscope'
-  Plug 'vimoxide/vim-sherlock'
-  Plug 'vimoxide/vim-spaceline'
-  Plug 'vimoxide/vim-vifmd'
   Plug 'preservim/nerdtree'
   Plug 'neoclide/coc.nvim', {'branch': 'release'}
-  Plug 'kyoz/purify', { 'rtp': 'vim' }
-  Plug 'vim-airline/vim-airline-themes'
-  Plug 'scrooloose/syntastic'
-  Plug 'dart-lang/dart-vim-plugin'
   Plug 'honza/vim-snippets'
   Plug 'natebosch/dartlang-snippets'
-  Plug 'tpope/vim-fugitive'
   Plug 'preservim/nerdcommenter'
   Plug 'junegunn/fzf'
   Plug 'junegunn/fzf.vim'
-  Plug 'airblade/vim-rooter'
-  Plug 'challenger-deep-theme/vim', { 'as': 'challenger-deep' }
-  Plug 'whatyouhide/vim-gotham'
-  Plug 'sainnhe/forest-night'
-  Plug 'tomasr/molokai'
-  Plug 'fmoralesc/molokayo'
+  Plug 'sheerun/vim-polyglot'
+  Plug 'vimoxide/vim-statusline'
+
+  "Colors
+  Plug 'sainnhe/gruvbox-material'
 call plug#end()
 
-colorscheme molokayo 
-
-autocmd vimenter * NERDTree
+colorscheme gruvbox-material
+set background=dark
+" nerd tree 
+let g:NERDTreeHijackNetrw=0  " tree enabled by default
 nmap <F6> :NERDTreeToggle<CR>
+" =========================================
+
 let mapleader = ","              " Leader
 let &ls = 2                             " Set to 0 to disable statusline (if 0, showmode is enabled)
 
-" Enable Statusline
+" Enable Statusline ===========================================================
+function! GitBranch()
+  return system("git rev-parse --abbrev-ref HEAD 2>/dev/null | tr -d '\n'")
+endfunction
+
+function! StatuslineGit()
+  let l:branchname = GitBranch()
+  return strlen(l:branchname) > 0?'  '.l:branchname.' ':''
+endfunction
+
+set statusline=
+set statusline+=%#PmenuSel#
+set statusline+=%{StatuslineGit()}
+set statusline+=%#LineNr#
+set statusline+=\ %f
+set statusline+=%m\
+set statusline+=%=
+set statusline+=%#CursorColumn#
+set statusline+=\ %y
+set statusline+=\ %{&fileencoding?&fileencoding:&encoding}
+set statusline+=\[%{&fileformat}\]
+set statusline+=\ %p%%
+set statusline+=\ %l:%c
+set statusline+=\ 
+"end of status line ===========================================================
+
+" vertical split
+nnoremap <silent> <bar> :vs<CR>
+
 set arabicshape!
 set backspace=indent,eol,start
 set cmdheight=1
@@ -110,12 +122,11 @@ nnoremap <silent> <C-k> <C-w>k
 :hi CursorColumn cterm=NONE ctermbg=darkred ctermfg=white guibg=grey40 guifg=white
 let g:coc_disable_startup_warning = 1
 let g:solarized_termcolors=256
-set t_ut=
 " Use `[g` and `]g` to navigate diagnostics
 " Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
 
-"nmap <silent> [g <Plug>(coc-diagnostic-prev)
-"nmap <silent> ]g <Plug>(coc-diagnostic-next)
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
 
 " GoTo code navigation.
 nmap <silent> gd <Plug>(coc-definition)

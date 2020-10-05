@@ -72,6 +72,7 @@ set tabstop=4
 set shiftwidth=4
 set autoindent
 set expandtab
+set ttimeoutlen=0
 
 set termguicolors
 
@@ -100,42 +101,9 @@ nnoremap Y y$
 nnoremap <silent> \| :vs<CR>
 nnoremap <silent> <C-l> <C-w>l
 nnoremap <silent> <C-h> <C-w>h
-"nnoremap <silent> <C-j> <C-w>j
+nnoremap <silent> <C-j> <C-w>j
 nnoremap <silent> <C-k> <C-w>k
 
-" Bind CTRL+S -> Save
-nnoremap <silent> <C-s> :w<cr>
-inoremap <silent> <C-s> <C-o><C-s>
-cnoremap <silent> <C-s> <C-\><C-c><C-s>
-
-" Bind CTRL+q -> Quit
-nnoremap <silent> <C-q> <C-w>q
-inoremap <silent> <C-q> <C-o><C-q>
-cnoremap <silent> <C-q> <C-\><C-c><C-q>
-
-" Easy paste above/below
-nnoremap <silent> <M-p> :put<CR>
-nnoremap <silent> <M-P> :put!<CR>
-
-" Easier Indentations
-vnoremap < <gv
-vnoremap > >gv
-
-" System Clipboard
-noremap <Leader>y "*y
-noremap <Leader>Y "+y
-
-" Terminal
-tnoremap <silent> <ESC><ESC> <C-\><C-N><C-w><C-w>
-nnoremap <silent> <Leader>p :VifmdToggle<CR>
-
-" Sherlock
-cnoremap <C-p> <C-\>e sherlock#completeBackward()<CR>
-cnoremap <C-n> <C-\>e sherlock#completeForward()<CR>
-
-" Quick buffer cycling
-nnoremap <silent> <Leader>bn :call exutils#next_buffer()<CR>
-nnoremap <silent> <Leader>bp :call exutils#previous_buffer()<CR>
 
 :hi clear CursorLine
 :hi CursorLine   cterm=NONE ctermbg=darkred ctermfg=white guibg=grey40 guifg=white
@@ -145,8 +113,9 @@ let g:solarized_termcolors=256
 set t_ut=
 " Use `[g` and `]g` to navigate diagnostics
 " Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
-nmap <silent> [g <Plug>(coc-diagnostic-prev)
-nmap <silent> ]g <Plug>(coc-diagnostic-next)
+
+"nmap <silent> [g <Plug>(coc-diagnostic-prev)
+"nmap <silent> ]g <Plug>(coc-diagnostic-next)
 
 " GoTo code navigation.
 nmap <silent> gd <Plug>(coc-definition)
@@ -164,3 +133,5 @@ function! s:show_documentation()
     call CocAction('doHover')
   endif
 endfunction
+
+let g:fzf_layout = { 'window': { 'width': 0.8, 'height': 0.8 } }

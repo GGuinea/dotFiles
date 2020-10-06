@@ -8,6 +8,7 @@ call plug#begin()
   Plug 'junegunn/fzf.vim'
   Plug 'sheerun/vim-polyglot'
   Plug 'vimoxide/vim-statusline'
+  Plug 'dart-lang/dart-vim-plugin'
 
   "Colors
   Plug 'sainnhe/gruvbox-material'

@@ -12,6 +12,10 @@ call plug#begin()
 
   "Colors
   Plug 'sainnhe/gruvbox-material'
+  Plug 'colepeters/spacemacs-theme.vim'
+  Plug 'phanviet/vim-monokai-pro'
+  Plug 'flazz/vim-colorschemes'
+  Plug 'chriskempson/base16-vim'
 call plug#end()
 
 colorscheme gruvbox-material

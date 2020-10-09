@@ -1,6 +1,12 @@
 {
   "coc.preferences.snippets.enable": true,
   "suggest.snippetIndicator": "",
+  "suggest.floatEnable": false,
+  "diagnostic.messageTarget": "echo",
+  "signature.target": "echo",
+  "coc.preferences.hoverTarget": "echo",
+  "diagnostic.virtualText": true,
+  "diagnostic.virtualTextCurrentLineOnly": false,
   "languageserver": {
         "ccls": {
             "command": "ccls",

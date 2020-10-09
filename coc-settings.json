@@ -1,5 +1,6 @@
 {
   "coc.preferences.snippets.enable": true,
+  "diagnostic.virtualTextPrefix": " << ",
   "suggest.snippetIndicator": "",
   "suggest.floatEnable": false,
   "diagnostic.messageTarget": "echo",

@@ -12,14 +12,9 @@ call plug#begin()
 
   "Colors
   Plug 'sainnhe/gruvbox-material'
-  Plug 'colepeters/spacemacs-theme.vim'
-  Plug 'phanviet/vim-monokai-pro'
   Plug 'flazz/vim-colorschemes'
-  Plug 'chriskempson/base16-vim'
 call plug#end()
 
-colorscheme gruvbox-material
-set background=dark
 " nerd tree 
 let g:NERDTreeHijackNetrw=0  " tree enabled by default
 nmap <F6> :NERDTreeToggle<CR>
@@ -28,6 +23,8 @@ nmap <F6> :NERDTreeToggle<CR>
 let mapleader = ","              " Leader
 let &ls = 2                             " Set to 0 to disable statusline (if 0, showmode is enabled)
 
+colorscheme made_of_code
+set termguicolors
 " Enable Statusline ===========================================================
 function! GitBranch()
   return system("git rev-parse --abbrev-ref HEAD 2>/dev/null | tr -d '\n'")
@@ -75,7 +72,6 @@ set noswapfile
 set nowrap
 set nrformats-=octal
 set number relativenumber
-set termguicolors
 set pumheight=20
 set scrolloff=2
 set selection=exclusive
@@ -90,8 +86,6 @@ set shiftwidth=4
 set autoindent
 set expandtab
 set ttimeoutlen=0
-
-set termguicolors
 
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
@@ -126,11 +120,9 @@ nnoremap <silent> <C-k> <C-w>k
 :hi CursorLine   cterm=NONE ctermbg=darkred ctermfg=white guibg=grey40 guifg=white
 :hi CursorColumn cterm=NONE ctermbg=darkred ctermfg=white guibg=grey40 guifg=white
 let g:coc_disable_startup_warning = 1
-let g:solarized_termcolors=256
+
 " Use `[g` and `]g` to navigate diagnostics
 " Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
-
-
 nmap <silent> [g <Plug>(coc-diagnostic-prev)
 nmap <silent> ]g <Plug>(coc-diagnostic-next)
 
@@ -162,26 +154,12 @@ endfunction
 
 let g:fzf_layout = { 'window': { 'width': 0.8, 'height': 0.8 } }
 
-" --- vim go (polyglot) settings.
-let g:go_highlight_build_constraints = 1
-let g:go_highlight_extra_types = 1
-let g:go_highlight_fields = 1
-let g:go_highlight_functions = 1
-let g:go_highlight_methods = 1
-let g:go_highlight_operators = 1
-let g:go_highlight_structs = 1
-let g:go_highlight_types = 1
-let g:go_highlight_function_parameters = 1
-let g:go_highlight_function_calls = 1
-let g:go_highlight_generate_tags = 1
-let g:go_highlight_format_strings = 1
-let g:go_highlight_variable_declarations = 1
-let g:go_auto_sameids = 1
-
 nnoremap <Leader>+ :vertical resize +5<CR>
 nnoremap <Leader>- :vertical resize -5<CR>
 
 " Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
 " delays and poor user experience.
 set updatetime=300
+  " Recently vim can merge signcolumn and number column into one
+set signcolumn=number
 

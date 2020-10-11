@@ -23,8 +23,9 @@ nmap <F6> :NERDTreeToggle<CR>
 let mapleader = ","              " Leader
 let &ls = 2                             " Set to 0 to disable statusline (if 0, showmode is enabled)
 
-colorscheme made_of_code
-set termguicolors
+colorscheme gruvbox
+colorscheme gruvbox-material
+"set termguicolors
 " Enable Statusline ===========================================================
 function! GitBranch()
   return system("git rev-parse --abbrev-ref HEAD 2>/dev/null | tr -d '\n'")
@@ -116,9 +117,9 @@ nnoremap <silent> <C-j> <C-w>j
 nnoremap <silent> <C-k> <C-w>k
 
 
-:hi clear CursorLine
-:hi CursorLine   cterm=NONE ctermbg=darkred ctermfg=white guibg=grey40 guifg=white
-:hi CursorColumn cterm=NONE ctermbg=darkred ctermfg=white guibg=grey40 guifg=white
+":hi clear CursorLine
+":hi CursorLine   cterm=NONE ctermbg=darkred ctermfg=white guibg=grey40 guifg=white
+":hi CursorColumn cterm=NONE ctermbg=darkred ctermfg=white guibg=grey40 guifg=white
 let g:coc_disable_startup_warning = 1
 
 " Use `[g` and `]g` to navigate diagnostics

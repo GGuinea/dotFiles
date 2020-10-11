@@ -7,9 +7,8 @@ call plug#begin()
   Plug 'junegunn/fzf'
   Plug 'junegunn/fzf.vim'
   Plug 'sheerun/vim-polyglot'
-  Plug 'vimoxide/vim-statusline'
   Plug 'dart-lang/dart-vim-plugin'
-
+  Plug 'vim-airline/vim-airline'
   "Colors
   Plug 'sainnhe/gruvbox-material'
   Plug 'flazz/vim-colorschemes'
@@ -21,35 +20,12 @@ nmap <F6> :NERDTreeToggle<CR>
 " =========================================
 
 let mapleader = ","              " Leader
-let &ls = 2                             " Set to 0 to disable statusline (if 0, showmode is enabled)
 
 colorscheme gruvbox
 colorscheme gruvbox-material
 "set termguicolors
 " Enable Statusline ===========================================================
-function! GitBranch()
-  return system("git rev-parse --abbrev-ref HEAD 2>/dev/null | tr -d '\n'")
-endfunction
 
-function! StatuslineGit()
-  let l:branchname = GitBranch()
-  return strlen(l:branchname) > 0?'  '.l:branchname.' ':''
-endfunction
-
-set statusline=
-set statusline+=%#PmenuSel#
-set statusline+=%{StatuslineGit()}
-set statusline+=%#LineNr#
-set statusline+=\ %f
-set statusline+=%m\
-set statusline+=%=
-set statusline+=%#CursorColumn#
-set statusline+=\ %y
-set statusline+=\ %{&fileencoding?&fileencoding:&encoding}
-set statusline+=\[%{&fileformat}\]
-set statusline+=\ %p%%
-set statusline+=\ %l:%c
-set statusline+=\ 
 "end of status line ===========================================================
 
 " vertical split

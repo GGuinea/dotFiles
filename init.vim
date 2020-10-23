@@ -1,3 +1,6 @@
+syntax on
+filetype plugin indent on
+
 call plug#begin()
   Plug 'preservim/nerdtree'
   Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -9,6 +12,7 @@ call plug#begin()
   Plug 'sheerun/vim-polyglot'
   Plug 'dart-lang/dart-vim-plugin'
   Plug 'vim-airline/vim-airline'
+  Plug 'tpope/vim-rails'
   "Colors
   Plug 'sainnhe/gruvbox-material'
   Plug 'flazz/vim-colorschemes'
@@ -40,8 +44,6 @@ set hidden
 set ignorecase
 set incsearch
 set mouse=a
-set nocp
-set noruler
 set cursorline
 set cursorcolumn
 set noshowcmd 
@@ -54,15 +56,21 @@ set scrolloff=2
 set selection=exclusive
 set showtabline=0
 set smartcase
+set smartindent
 set splitbelow splitright
 set virtualedit=block
+set nu
 set wildmenu
 set list
 set tabstop=4
+set noruler
 set shiftwidth=4
 set autoindent
 set expandtab
 set ttimeoutlen=0
+
+set colorcolumn=80
+highligh ColorColumt ctermbg=0 guibg=lightgrey
 
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
@@ -129,6 +137,13 @@ nmap <leader>sr :CocSearch <C-R>=expand("<cword>")<CR><CR>
 " Formatting selected code.
 xmap <leader>f  <Plug>(coc-format-selected)
 nmap <leader>f  <Plug>(coc-format-selected)
+
+nmap <leader>fm  :CocFix<cr>
+" Remap keys for applying codeAction to the current buffer.
+nmap <leader>ac  <Plug>(coc-codeaction)
+" Apply AutoFix to problem on the current line.
+nmap <leader>qf  <Plug>(coc-fix-current)
+
 " Use K to show documentation in preview window.
 nnoremap <silent> K :call <SID>show_documentation()<CR>
 
@@ -147,7 +162,7 @@ nnoremap <Leader>- :vertical resize -5<CR>
 
 " Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
 " delays and poor user experience.
-set updatetime=300
+set updatetime=50
   " Recently vim can merge signcolumn and number column into one
 set signcolumn=number
 
@@ -156,4 +171,85 @@ inoremap kj <esc>
 nmap <Leader>wq :x<cr>
 nmap <Leader>w :w<cr>
 nmap <Leader>qq :q!<cr>
+
+" Terminal commands
+" ueoa is first through fourth finger left hand home row.
+" This just means I can crush, with opposite hand, the 4 terminal positions
+nmap <leader>tf :call GotoBuffer(0)<CR>
+nmap <leader>td :call GotoBuffer(1)<CR>
+nmap <leader>ts :call GotoBuffer(2)<CR>
+nmap <leader>ta :call GotoBuffer(3)<CR>
+
+nmap <leader>tsf :call SetBuffer(0)<CR>
+nmap <leader>tsd :call SetBuffer(1)<CR>
+nmap <leader>tss :call SetBuffer(2)<CR>
+nmap <leader>tsa :call SetBuffer(3)<CR>
+
+fun! EmptyRegisters()
+    let regs=split('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789/-"', '\zs')
+    for r in regs
+        call setreg(r, [])
+    endfor
+endfun
+
+fun! TrimWhitespace()
+    let l:save = winsaveview()
+    keeppatterns %s/\s\+$//e
+    call winrestview(l:save)
+endfun
+
+" ES
+com! W w
+
+fun! ThePrimeagen_LspHighlighter()
+    lua print("Testing")
+    lua package.loaded["my_lspconfig"] = nil
+    lua require("my_lspconfig")
+endfun
+
+fun! GotoBuffer(ctrlId)
+    if (a:ctrlId > 9) || (a:ctrlId < 0)
+        echo "CtrlID must be between 0 - 9"
+        return
+    end
+
+    let contents = g:win_ctrl_buf_list[a:ctrlId]
+    if type(l:contents) != v:t_list
+        echo "Nothing There"
+        return
+    end
+
+    let bufh = l:contents[1]
+    call nvim_win_set_buf(0, l:bufh)
+endfun
+
+" How to do this but much better?
+let g:win_ctrl_buf_list = [0, 0, 0, 0]
+fun! SetBuffer(ctrlId)
+    if has_key(b:, "terminal_job_id") == 0
+        echo "You must be in a terminal to execute this command"
+        return
+    end
+    if (a:ctrlId > 9) || (a:ctrlId < 0)
+        echo "CtrlID must be between 0 - 9"
+        return
+    end
+
+    let g:win_ctrl_buf_list[a:ctrlId] = [b:terminal_job_id, nvim_win_get_buf(0)]
+endfun
+
+fun! SendTerminalCommand(ctrlId, command)
+    if (a:ctrlId > 9) || (a:ctrlId < 0)
+        echo "CtrlID must be between 0 - 9"
+        return
+    end
+    let contents = g:win_ctrl_buf_list[a:ctrlId]
+    if type(l:contents) != v:t_list
+        echo "Nothing There"
+        return
+    end
+
+    let job_id = l:contents[0]
+    call chansend(l:job_id, a:command)
+endfun
 

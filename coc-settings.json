@@ -8,6 +8,7 @@
   "coc.preferences.hoverTarget": "echo",
   "diagnostic.virtualText": true,
   "diagnostic.virtualTextCurrentLineOnly": false,
+  "prettier.useTabs": false,
   "languageserver": {
         "ccls": {
             "command": "ccls",

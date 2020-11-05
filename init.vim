@@ -13,10 +13,16 @@ call plug#begin()
   Plug 'dart-lang/dart-vim-plugin'
   Plug 'vim-airline/vim-airline'
   Plug 'tpope/vim-rails'
+
+  Plug 'google/vim-maktaba'
+  Plug 'google/vim-codefmt'
+  Plug 'google/vim-glaive'
+
   "Colors
   Plug 'sainnhe/gruvbox-material'
   Plug 'flazz/vim-colorschemes'
 call plug#end()
+call glaive#Install()
 
 " nerd tree 
 let g:NERDTreeHijackNetrw=0  " tree enabled by default
@@ -25,9 +31,9 @@ nmap <F6> :NERDTreeToggle<CR>
 
 let mapleader = ","              " Leader
 
-colorscheme gruvbox
-colorscheme gruvbox-material
-"set termguicolors
+colorscheme ayu 
+set termguicolors
+colorscheme gruvbox 
 " Enable Statusline ===========================================================
 
 "end of status line ===========================================================
@@ -62,13 +68,14 @@ set virtualedit=block
 set nu
 set wildmenu
 set list
-set tabstop=4
+set tabstop=2
 set noruler
+set softtabstop=0
 set shiftwidth=4
 set autoindent
 set expandtab
-set ttimeoutlen=0
 
+set smarttab
 set colorcolumn=80
 highligh ColorColumt ctermbg=0 guibg=lightgrey
 
@@ -252,4 +259,21 @@ fun! SendTerminalCommand(ctrlId, command)
     let job_id = l:contents[0]
     call chansend(l:job_id, a:command)
 endfun
+
+Glaive codefmt google_java_executable="java -jar /home/guinea/git-repos/google-java-format-1.9-all-deps.jar"
+
+augroup autoformat_settings
+  autocmd FileType bzl AutoFormatBuffer buildifier
+  autocmd FileType c,cpp,proto,javascript,arduino AutoFormatBuffer clang-format
+  autocmd FileType dart AutoFormatBuffer dartfmt
+  autocmd FileType go AutoFormatBuffer gofmt
+  autocmd FileType gn AutoFormatBuffer gn
+  autocmd FileType html,css,sass,scss,less,json AutoFormatBuffer js-beautify
+  autocmd FileType java AutoFormatBuffer google-java-format
+  autocmd FileType python AutoFormatBuffer yapf
+  " Alternative: autocmd FileType python AutoFormatBuffer autopep8
+  autocmd FileType rust AutoFormatBuffer rustfmt
+  autocmd FileType vue AutoFormatBuffer prettier
+augroup END
+
 
